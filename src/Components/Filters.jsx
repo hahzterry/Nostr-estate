@@ -15,24 +15,27 @@ const Filters = ({ setFilters }) => {
 
     return (
         <div>
-            <h3>Filtros</h3>
+            <h3>Filters</h3>
 
             <input
-                placeholder="Precio mínimo"
+                placeholder="Minimum price"
+                value={priceMin}
                 onChange={e => setPriceMin(e.target.value)}
             />
 
             <input
-                placeholder="Precio máximo"
+                placeholder="Maximum price"
+                value={priceMax}
                 onChange={e => setPriceMax(e.target.value)}
             />
 
             <input
-                placeholder="Distrito"
+                placeholder="District / ZIP Code"
+                value={district}
                 onChange={e => setDistrict(e.target.value)}
             />
 
-            <button onClick={applyFilters}>Buscar</button>
+            <button onClick={applyFilters}>Search</button>
         </div>
     );
 };
