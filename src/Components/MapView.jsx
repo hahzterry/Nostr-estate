@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "leaflet.heat";
 
-// FIX iconos
+// FIX icons (default Leaflet marker icons don't load in bundlers)
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -21,7 +21,7 @@ const Heatmap = ({ data }) => {
     const map = useMap();
 
     useEffect(() => {
-        console.log("🔥 [HEATMAP] render con data:", data);
+        console.log("🔥 [HEATMAP] render with data:", data);
 
         if (!map || !data || data.length === 0) return;
 
@@ -36,8 +36,9 @@ const Heatmap = ({ data }) => {
             .map(d => [
                 Number(d.lat),
                 Number(d.lng),
-                d.price_m2 && d.price_m2 > 0
-                    ? d.price_m2 / 8000
+                // 🔥 USA: price is in USD per sq ft. Normalize by 1000 for heat intensity.
+                d.price_sqft && d.price_sqft > 0
+                    ? d.price_sqft / 1000
                     : 0.2
             ]);
 
@@ -87,8 +88,8 @@ const SelectedMarker = ({ property }) => {
     return (
         <Marker position={[property.lat, property.lng]}>
             <Popup>
-                <b>{property.title || "Propiedad"}</b><br />
-                💰 ${property.price || "-"}<br />
+                <b>{property.title || "Property"}</b><br />
+                💰 ${property.price?.toLocaleString("en-US") || "-"}<br />
                 📍 {property.district || "-"}
             </Popup>
         </Marker>
@@ -106,7 +107,7 @@ const MapView = ({ filters, onPropertiesLoaded, onLoading, selectedProperty }) =
 
         const fetchData = async () => {
 
-            console.log("🗺️ [MAP] fetch iniciado con filtros:", filters);
+            console.log("🗺️ [MAP] fetch started with filters:", filters);
 
             onLoading?.();
 
@@ -133,7 +134,7 @@ const MapView = ({ filters, onPropertiesLoaded, onLoading, selectedProperty }) =
                 onPropertiesLoaded?.(properties);
 
             } catch (err) {
-                console.error("❌ [MAP] ERROR API:", err);
+                console.error("❌ [MAP] API ERROR:", err);
                 setHeatmapData([]);
                 onPropertiesLoaded?.([]);
             }
@@ -145,7 +146,7 @@ const MapView = ({ filters, onPropertiesLoaded, onLoading, selectedProperty }) =
 
     return (
         <MapContainer
-            center={[-12.0464, -77.0428]}
+            center={[33.7490, -84.3880]}   // 🍑 Atlanta, Georgia (USA default)
             zoom={12}
             style={{ height: "100vh", width: "100%" }}
         >
@@ -157,7 +158,7 @@ const MapView = ({ filters, onPropertiesLoaded, onLoading, selectedProperty }) =
 
             <Heatmap data={heatmapData} />
 
-            {/* 🔥 NUEVO: marcador de propiedad seleccionada */}
+            {/* 🔥 Selected property marker */}
             <SelectedMarker property={selectedProperty} />
 
         </MapContainer>
