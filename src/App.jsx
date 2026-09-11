@@ -31,7 +31,7 @@ const App = () => {
     };
 
     // =========================
-    // 🔥 EVALUACIÓN IA
+    // 🔥 AI EVALUATION
     // =========================
     const evaluatePrice = () => {
         if (!prediction) return null;
@@ -45,27 +45,27 @@ const App = () => {
 
         if (diff > 0.05) {
             return {
-                label: "Oportunidad",
+                label: "Opportunity",
                 color: "#16a34a",
                 icon: "🟢",
-                message: "El precio proyectado es mayor al promedio. Zona con potencial de subida."
+                message: "The projected price is above average. Area with upward potential."
             };
         }
 
         if (diff < -0.05) {
             return {
-                label: "Sobrevalorado",
+                label: "Overvalued",
                 color: "#dc2626",
                 icon: "🔴",
-                message: "El precio proyectado está por debajo del promedio. Riesgo de sobreprecio."
+                message: "The projected price is below average. Risk of overpricing."
             };
         }
 
         return {
-            label: "Precio Justo",
+            label: "Fair Price",
             color: "#ca8a04",
             icon: "🟡",
-            message: "El precio está alineado con el mercado."
+            message: "The price is aligned with the market."
         };
     };
 
@@ -110,7 +110,7 @@ const App = () => {
                 setPrediction(res.data);
             } catch (err) {
                 console.error(err);
-                setPrediction({ error: "Error en predicción" });
+                setPrediction({ error: "Prediction error" });
             }
         };
 
@@ -131,27 +131,27 @@ const App = () => {
         <div className="layout">
             <div className="sidebar">
 
-                {/* FILTROS */}
+                {/* FILTERS */}
                 <div className="section">
                     <h3 className="section-title" onClick={() => setFiltersCollapsed(p => !p)}>
-                        Filtros {filtersCollapsed ? "▼" : "▲"}
+                        Filters {filtersCollapsed ? "▼" : "▲"}
                     </h3>
 
                     {!filtersCollapsed && (
                         <div className="section-content">
-                            <input type="number" placeholder="Precio mínimo"
+                            <input type="number" placeholder="Minimum price"
                                 onChange={e => setFilters(p => ({
                                     ...p,
                                     min_price: e.target.value ? Number(e.target.value) : null
                                 }))} />
 
-                            <input type="number" placeholder="Precio máximo"
+                            <input type="number" placeholder="Maximum price"
                                 onChange={e => setFilters(p => ({
                                     ...p,
                                     max_price: e.target.value ? Number(e.target.value) : null
                                 }))} />
 
-                            <input type="text" placeholder="Distrito"
+                            <input type="text" placeholder="District"
                                 value={filters.district}
                                 onChange={e => setFilters(p => ({
                                     ...p,
@@ -166,7 +166,7 @@ const App = () => {
                 {/* CLUSTERS */}
                 <div className="section">
                     <h3 className="section-title" onClick={() => setClustersCollapsed(p => !p)}>
-                        Distritos (Cluster) {clustersCollapsed ? "▼" : "▲"}
+                        Districts (Cluster) {clustersCollapsed ? "▼" : "▲"}
                     </h3>
 
                     {!clustersCollapsed && (
@@ -188,10 +188,10 @@ const App = () => {
                                             💰 ${formatNumber(c.avg_price_m2)} / m²
                                         </div>
 
-                                        {/* 🔥 PREDICCIÓN */}
+                                        {/* 🔥 PREDICTION */}
                                         {isSelected && (
                                             <div className="prediction">
-                                                {!prediction && <p>⏳ Calculando...</p>}
+                                                {!prediction && <p>⏳ Calculating...</p>}
 
                                                 {prediction?.error && (
                                                     <p style={{ color: "red" }}>
@@ -201,11 +201,11 @@ const App = () => {
 
                                                 {prediction && !prediction.error && (
                                                     <>
-                                                        <p>🤖 Precio estimado: ${formatNumber(prediction.predicted_price)}</p>
-                                                        <p>💰 Promedio: ${formatNumber(prediction.avg_price)}</p>
-                                                        <p>📈 Tendencia: {formatNumber(prediction.trend)}</p>
+                                                        <p>🤖 Estimated price: ${formatNumber(prediction.predicted_price)}</p>
+                                                        <p>💰 Average: ${formatNumber(prediction.avg_price)}</p>
+                                                        <p>📈 Trend: {formatNumber(prediction.trend)}</p>
 
-                                                        {/* 🔥 TARJETA IA */}
+                                                        {/* 🔥 AI CARD */}
                                                         {evaluation && (
                                                             <div style={{
                                                                 marginTop: "10px",
@@ -234,15 +234,15 @@ const App = () => {
                     )}
                 </div>
 
-                {/* PROPIEDADES */}
+                {/* PROPERTIES */}
                 <div className="section">
                     <h3 className="section-title" onClick={() => setPropertiesCollapsed(p => !p)}>
-                        Propiedades {propertiesCollapsed ? "▼" : "▲"}
+                        Properties {propertiesCollapsed ? "▼" : "▲"}
                     </h3>
 
                     {!propertiesCollapsed && (
                         <div className="section-content">
-                            {loadingProperties && <p>⏳ Cargando...</p>}
+                            {loadingProperties && <p>⏳ Loading...</p>}
 
                             <Sidebar
                                 properties={properties}
@@ -254,7 +254,7 @@ const App = () => {
                 </div>
             </div>
 
-            {/* MAPA */}
+            {/* MAP */}
             <div className="map-container">
                 <MapView
                     filters={filters}
