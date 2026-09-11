@@ -1,24 +1,86 @@
+/* ============================================
+   🍎 APPLE MAPS–INSPIRED DESIGN SYSTEM
+   Clean. Airy. Premium. Fortune 100.
+   ============================================ */
+
+:root {
+  --accent: #0071e3;              /* Apple blue */
+  --accent-hover: #0077ed;
+  --accent-bg: rgba(0, 113, 227, 0.08);
+  --accent-border: rgba(0, 113, 227, 0.35);
+
+  --text: #1d1d1f;                /* Apple near-black */
+  --text-h: #000;
+  --text-muted: #6e6e73;          /* Apple gray */
+
+  --border: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.14);
+
+  --bg: #ffffff;
+  --bg-elevated: #fbfbfd;
+  --social-bg: rgba(0, 0, 0, 0.04);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+          Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --------------------------------------------
+   BASE
+   -------------------------------------------- */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  letter-spacing: -0.01em;
+}
+
+/* --------------------------------------------
+   COUNTER — Pill badge
+   -------------------------------------------- */
 .counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 999px;              /* full pill */
   color: var(--accent);
   background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
+  border: 1px solid transparent;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 24px;
+  letter-spacing: -0.01em;
 
   &:hover {
+    background: rgba(0, 113, 227, 0.12);
     border-color: var(--accent-border);
+    transform: translateY(-1px);
   }
+
   &:focus-visible {
     outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline-offset: 3px;
   }
 }
 
+/* --------------------------------------------
+   HERO — Floating layered logo
+   -------------------------------------------- */
 .hero {
   position: relative;
+  padding: 48px 0;
+  perspective: 2000px;
 
   .base,
   .framework,
@@ -31,62 +93,87 @@
     width: 170px;
     position: relative;
     z-index: 0;
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.12));
   }
 
   .framework,
   .vite {
     position: absolute;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
   }
 
   .framework {
-    z-index: 1;
+    z-index: 2;
     top: 34px;
     height: 28px;
     transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
       scale(1.4);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .vite {
-    z-index: 0;
+    z-index: 1;
     top: 107px;
     height: 26px;
     width: auto;
     transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
       scale(0.8);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover .framework {
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(35deg)
+      scale(1.45);
+  }
+
+  &:hover .vite {
+    transform: perspective(2000px) rotateZ(300deg) rotateX(36deg) rotateY(35deg)
+      scale(0.85);
   }
 }
 
+/* --------------------------------------------
+   CENTER — Vertical stack
+   -------------------------------------------- */
 #center {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 28px;
   place-content: center;
   place-items: center;
   flex-grow: 1;
+  padding: 32px 24px;
 
   @media (max-width: 1024px) {
     padding: 32px 20px 24px;
-    gap: 18px;
+    gap: 20px;
   }
 }
 
+/* --------------------------------------------
+   NEXT STEPS — Split card panel
+   -------------------------------------------- */
 #next-steps {
   display: flex;
   border-top: 1px solid var(--border);
   text-align: left;
+  background: var(--bg-elevated);
 
   & > div {
     flex: 1 1 0;
-    padding: 32px;
+    padding: 40px 32px;
+
     @media (max-width: 1024px) {
-      padding: 24px 20px;
+      padding: 28px 20px;
     }
   }
 
   .icon {
     margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
+    color: var(--accent);
+    opacity: 0.9;
   }
 
   @media (max-width: 1024px) {
@@ -104,11 +191,14 @@
   }
 }
 
+/* --------------------------------------------
+   LINKS — Apple-style buttons
+   -------------------------------------------- */
 #next-steps ul {
   list-style: none;
   padding: 0;
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin: 32px 0 0;
 
   .logo {
@@ -117,22 +207,35 @@
 
   a {
     color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    border-radius: var(--radius-sm);
     background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
+    display: inline-flex;
+    padding: 8px 16px;
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    transition: box-shadow 0.3s;
+    border: 1px solid transparent;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
+      background: #fff;
+      border-color: var(--border-strong);
       box-shadow: var(--shadow);
+      transform: translateY(-1px);
     }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: var(--shadow-sm);
+    }
+
     .button-icon {
       height: 18px;
       width: 18px;
+      opacity: 0.85;
     }
   }
 
@@ -143,6 +246,7 @@
 
     li {
       flex: 1 1 calc(50% - 8px);
+      min-width: 140px;
     }
 
     a {
@@ -153,14 +257,22 @@
   }
 }
 
+/* --------------------------------------------
+   SPACER
+   -------------------------------------------- */
 #spacer {
   height: 88px;
   border-top: 1px solid var(--border);
+  background: var(--bg-elevated);
+
   @media (max-width: 1024px) {
     height: 48px;
   }
 }
 
+/* --------------------------------------------
+   TICKS — End caps
+   -------------------------------------------- */
 .ticks {
   position: relative;
   width: 100%;
@@ -171,14 +283,24 @@
     position: absolute;
     top: -4.5px;
     border: 5px solid transparent;
+    transition: border-color 0.25s ease;
   }
 
   &::before {
     left: 0;
     border-left-color: var(--border);
   }
+
   &::after {
     right: 0;
     border-right-color: var(--border);
+  }
+
+  &:hover::before {
+    border-left-color: var(--accent);
+  }
+
+  &:hover::after {
+    border-right-color: var(--accent);
   }
 }
